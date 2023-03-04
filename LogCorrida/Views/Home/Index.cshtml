@@ -1,0 +1,78 @@
+﻿@model IEnumerable<LogCorrida.Models.Classificacao>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Log Corrida</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <section class="col-lg-12">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Classificação da corrida</h3>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-5 col-lg-5">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" accept=".csv" class="custom-file-input" id="log" name="log">
+                                    <label class="custom-file-label" for="log" data-browse="Selecionar">selecione um arquivo .csv</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-lg-7">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-secondary">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @if (Model != null)
+                {
+                <div class="mt-4">
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Posição Chegada</th>
+                                <th>Código Piloto</th>
+                                <th>Nome Piloto</th>
+                                <th>Qtde Voltas Completadas</th>
+                                <th>Tempo Total de Prova</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int count = 0; }
+                            @foreach (var modelItem in Model)
+                            {
+                                <tr>
+                                    <td>@(modelItem.VoltasCompletadas == "4" ? ++count + "º" : "--")</td>
+                                    <td>@modelItem.Codigo</td>
+                                    <td>@modelItem.Nome</td>
+                                    <td>@modelItem.VoltasCompletadas</td>
+                                    <td>@modelItem.TempoTotal</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts {
+    <script src="~/js/lib/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script>
+        bsCustomFileInput.init();
+        $('.menu-1').addClass('active');
+    </script>
+}
